@@ -1,114 +1,178 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class MapGenerator : MonoBehaviour
 {
-    public int width = 40;  // Largeur de la carte
-    public int height = 40; // Hauteur de la carte
-    public GameObject wallPrefab; // Préfabriqué pour les murs
-    public GameObject groundPrefab; // Préfabriqué pour le sol
-    public GameObject blueShipPrefab; // Préfabriqué pour le vaisseau bleu
-    public GameObject redShipPrefab;  // Préfabriqué pour le vaisseau rouge
-    public GameObject enemyStarvengerPrefab; // Préfabriqué pour le StarVenger Rouge
+    [Header("Paramètres de la carte")]
+    public int mapWidth = 50;
+    public int mapHeight = 50;
 
-    public LayerMask wallLayer; // Layer des murs pour la vérification des positions
+    [Header("Prefabs")]
+    public GameObject wallPrefab;
+    public GameObject characterPrefab;
+
+    [Header("Paramètres des chemins")]
+    public int corridorMinWidth = 3;
+    public int corridorMaxWidth = 5;
+
+    // Tableau pour stocker la carte (true = sol, false = mur)
+    private bool[,] map;
+    // Liste des cellules qui sont devenues du sol (pour choisir des points de départ)
+    private List<Vector2Int> floorCells = new List<Vector2Int>();
 
     void Start()
     {
         GenerateMap();
-        PlaceGameObjects();
+        EnforceBorderWalls();
+        InstantiateWalls();
+        SpawnCharacter();
     }
 
-    // Génération de la carte
+    // Génère la carte en creusant des chemins dans une zone initialement remplie de murs
     void GenerateMap()
     {
-        for (int x = 0; x < width; x++)
-        {
-            for (int z = 0; z < height; z++)
-            {
-                // Générer le sol
-                Instantiate(groundPrefab, new Vector3(x, 0, z), Quaternion.identity);
+        map = new bool[mapWidth, mapHeight];
+        int totalCells = mapWidth * mapHeight;
+        int targetFloorCount = (int)(totalCells * 0.4f); // Par exemple 40% de sols
+        int floorCount = 0;
 
-                // Ajouter des murs sauf dans la zone centrale
-                if ((x < width / 3 || x > 2 * width / 3) || (z < height / 3 || z > 2 * height / 3))
+        // Démarrage au centre de la carte
+        Vector2Int currentPos = new Vector2Int(mapWidth / 2, mapHeight / 2);
+        SetFloor(currentPos);
+        floorCount++;
+
+        // Algorithme du "drunkard's walk"
+        while (floorCount < targetFloorCount)
+        {
+            int corridorWidth = Random.Range(corridorMinWidth, corridorMaxWidth + 1);
+            int corridorLength = Random.Range(3, 10);
+            Vector2Int direction = GetRandomDirection();
+
+            for (int i = 0; i < corridorLength; i++)
+            {
+                if (direction.x != 0) // chemin horizontal
                 {
-                    if (Random.value > 0.7f) // 30% de chance d'avoir un mur
+                    for (int offset = -corridorWidth / 2; offset <= corridorWidth / 2; offset++)
                     {
-                        Instantiate(wallPrefab, new Vector3(x, 0.5f, z), Quaternion.identity);
+                        Vector2Int cell = new Vector2Int(currentPos.x, currentPos.y + offset);
+                        if (IsInBounds(cell) && !map[cell.x, cell.y])
+                        {
+                            SetFloor(cell);
+                            floorCount++;
+                        }
                     }
+                }
+                else if (direction.y != 0) // chemin vertical
+                {
+                    for (int offset = -corridorWidth / 2; offset <= corridorWidth / 2; offset++)
+                    {
+                        Vector2Int cell = new Vector2Int(currentPos.x + offset, currentPos.y);
+                        if (IsInBounds(cell) && !map[cell.x, cell.y])
+                        {
+                            SetFloor(cell);
+                            floorCount++;
+                        }
+                    }
+                }
+
+                currentPos += direction;
+                if (!IsInBounds(currentPos))
+                {
+                    currentPos = floorCells[Random.Range(0, floorCells.Count)];
+                    break;
+                }
+            }
+
+            if (floorCells.Count > 0 && Random.value < 0.3f)
+            {
+                currentPos = floorCells[Random.Range(0, floorCells.Count)];
+            }
+        }
+    }
+
+    // Force la création d'un mur sur toute la bordure de la carte
+    void EnforceBorderWalls()
+    {
+        for (int x = 0; x < mapWidth; x++)
+        {
+            map[x, 0] = false;
+            map[x, mapHeight - 1] = false;
+        }
+        for (int y = 0; y < mapHeight; y++)
+        {
+            map[0, y] = false;
+            map[mapWidth - 1, y] = false;
+        }
+        // Supprime les cellules de bordure de la liste des sols accessibles
+        floorCells.RemoveAll(cell => cell.x == 0 || cell.x == mapWidth - 1 || cell.y == 0 || cell.y == mapHeight - 1);
+    }
+
+    // Retourne une direction aléatoire parmi les 4 directions principales
+    Vector2Int GetRandomDirection()
+    {
+        int rand = Random.Range(0, 4);
+        switch (rand)
+        {
+            case 0: return new Vector2Int(1, 0);    // Droite
+            case 1: return new Vector2Int(-1, 0);   // Gauche
+            case 2: return new Vector2Int(0, 1);    // Haut
+            default: return new Vector2Int(0, -1);  // Bas
+        }
+    }
+
+    // Vérifie si une position est dans les limites de la carte
+    bool IsInBounds(Vector2Int pos)
+    {
+        return pos.x >= 0 && pos.x < mapWidth && pos.y >= 0 && pos.y < mapHeight;
+    }
+
+    // Marque une cellule comme sol et l'ajoute à la liste des cellules accessibles
+    void SetFloor(Vector2Int pos)
+    {
+        map[pos.x, pos.y] = true;
+        floorCells.Add(pos);
+    }
+
+    // Instancie les murs sur les cellules qui ne sont pas du sol
+    void InstantiateWalls()
+    {
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                if (!map[x, y])
+                {
+                    Vector3 position = new Vector3(x, 0, y);
+                    Instantiate(wallPrefab, position, Quaternion.identity, transform);
                 }
             }
         }
     }
 
-    // Fonction pour vérifier si une position est libre
-    bool IsPositionFree(Vector3 position)
+    // Repositionne le personnage sur une cellule accessible
+    void SpawnCharacter()
     {
-        RaycastHit hit;
-        // Effectuer un raycast pour vérifier si la position est libre (sans mur)
-        if (Physics.Raycast(position + Vector3.up * 10, Vector3.down, out hit, 20f, wallLayer))
+        if (floorCells.Count > 0)
         {
-            return false; // Position occupée par un mur
-        }
-        return true; // Position libre
-    }
+            // Choisir aléatoirement une cellule accessible
+            Vector2Int pos = floorCells[Random.Range(0, floorCells.Count)];
+            Vector3 spawnPos = new Vector3(pos.x, 1, pos.y); // Ajuster la hauteur (y) si nécessaire
 
-    // Fonction pour placer les vaisseaux et le StarVenger
-    void PlaceGameObjects()
-    {
-        // Placer le vaisseau bleu aléatoirement
-        Vector3 blueShipPosition = GetRandomPosition();
-        if (IsPositionFree(blueShipPosition))
-        {
-            GameObject blueShip = Instantiate(blueShipPrefab, blueShipPosition, Quaternion.identity);
-
-            // Placer le StarVenger bleu près du vaisseau bleu
-            Vector3 blueStarvengerPosition = blueShipPosition + new Vector3(2, 0, 2); // À côté du vaisseau bleu
-            if (IsPositionFree(blueStarvengerPosition))
+            // Vérifier si un personnage existe déjà dans la scène (doit avoir le tag "Player")
+            GameObject existingCharacter = GameObject.FindWithTag("Player");
+            if (existingCharacter != null)
             {
-                Instantiate(enemyStarvengerPrefab, blueStarvengerPosition, Quaternion.identity);
+                existingCharacter.transform.position = spawnPos;
             }
             else
             {
-                Debug.LogWarning("Position pour le StarVenger bleu occupée par un mur.");
+                // Sinon, instancier le personnage à partir du prefab
+                Instantiate(characterPrefab, spawnPos, Quaternion.identity);
             }
         }
         else
         {
-            Debug.LogWarning("Position pour le vaisseau bleu occupée par un mur.");
+            Debug.LogWarning("Aucune cellule accessible pour repositionner le personnage !");
         }
-
-        // Placer le vaisseau rouge aléatoirement
-        Vector3 redShipPosition = GetRandomPosition();
-        if (IsPositionFree(redShipPosition))
-        {
-            GameObject redShip = Instantiate(redShipPrefab, redShipPosition, Quaternion.identity);
-
-            // Placer le StarVenger rouge près du vaisseau rouge
-            Vector3 redStarvengerPosition = redShipPosition + new Vector3(2, 0, 2); // À côté du vaisseau rouge
-            if (IsPositionFree(redStarvengerPosition))
-            {
-                Instantiate(enemyStarvengerPrefab, redStarvengerPosition, Quaternion.identity);
-            }
-            else
-            {
-                Debug.LogWarning("Position pour le StarVenger rouge occupée par un mur.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Position pour le vaisseau rouge occupée par un mur.");
-        }
-    }
-
-    // Fonction pour obtenir une position aléatoire valide
-    Vector3 GetRandomPosition()
-    {
-        Vector3 randomPosition = new Vector3(Random.Range(0, width), 0, Random.Range(0, height));
-        // S'assurer que la position aléatoire est valide (pas un mur)
-        while (!IsPositionFree(randomPosition))
-        {
-            randomPosition = new Vector3(Random.Range(0, width), 0, Random.Range(0, height));
-        }
-        return randomPosition;
     }
 }

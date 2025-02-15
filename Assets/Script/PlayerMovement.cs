@@ -7,17 +7,30 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        float moveX = joystick.Horizontal;
-        float moveZ = joystick.Vertical;
-
-        Vector3 movement = new Vector3(moveX, 0f, moveZ) * moveSpeed * Time.deltaTime;
-        //transform.Translate(movement);
-        transform.Translate(movement, Space.World); // Utilise l'espace monde
-
-        // Orienter le personnage dans la direction du mouvement
-        if (movement != Vector3.zero)
+        // Recherche de l'objet tagué "JoyStick" si le joystick n'est pas déjà assigné
+        if (joystick == null)
         {
-            transform.rotation = Quaternion.LookRotation(movement);
+            GameObject joyObj = GameObject.FindGameObjectWithTag("JoyStick");
+            if (joyObj != null)
+            {
+                joystick = joyObj.GetComponent<Joystick>();
+            }
+        }
+
+        // Si le joystick a été trouvé, on gère le déplacement du joueur
+        if (joystick != null)
+        {
+            float moveX = joystick.Horizontal;
+            float moveZ = joystick.Vertical;
+
+            Vector3 movement = new Vector3(moveX, 0f, moveZ) * moveSpeed * Time.deltaTime;
+            transform.Translate(movement, Space.World);
+
+            // Orientation du personnage dans la direction du mouvement
+            if (movement != Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(movement);
+            }
         }
     }
 }
