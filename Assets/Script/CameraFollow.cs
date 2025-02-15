@@ -1,16 +1,37 @@
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+public class SuiviPlayer : MonoBehaviour
 {
-    public Transform target; // Référence au StarVenger
-    public Vector3 offset = new Vector3(0, 10, -5); // Position relative de la caméra
+    // Référence au transform du joueur
+    private Transform player;
+
+    // Décalage de la caméra par rapport au joueur (modifiable dans l'inspecteur)
+    public Vector3 offset = new Vector3(0, 10, 0);
+
+    void Start()
+    {
+        // Fixe la rotation de la caméra à 90° sur l'axe X
+        transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+    }
 
     void LateUpdate()
     {
-        if (target != null)
+        // Si le joueur n'est pas encore trouvé, le rechercher par son tag
+        if (player == null)
         {
-            // Suivre uniquement le StarVenger en ZX (sans rotation)
-            transform.position = new Vector3(target.position.x, transform.position.y, target.position.z) + offset;
+            GameObject joueur = GameObject.FindGameObjectWithTag("Player");
+            if (joueur != null)
+            {
+                player = joueur.transform;
+            }
+        }
+
+        // Si le joueur a été trouvé, mettre à jour la position de la caméra
+        if (player != null)
+        {
+            transform.position = player.position + offset;
         }
     }
 }
+
+

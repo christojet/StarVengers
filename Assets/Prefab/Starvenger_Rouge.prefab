@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 1065535527307192919}
   - component: {fileID: 5187171548025647940}
   - component: {fileID: 560909079689022442}
-  - component: {fileID: 3292316036163764188}
-  - component: {fileID: 984282803780726074}
   - component: {fileID: 1569498097444046159}
+  - component: {fileID: 7546766059660279881}
+  - component: {fileID: 3427904120667588055}
   m_Layer: 0
   m_Name: Starvenger_Rouge
-  m_TagString: Untagged
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,35 +114,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3292316036163764188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2709752866193246750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6da597bb35bd3b40add3969be7e511a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 0}
-  firePoint: {fileID: 6942462688055051249}
-  projectileSpeed: 10
---- !u!114 &984282803780726074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2709752866193246750}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad9b56c8339e07f42827c523405049ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
-  joystick: {fileID: 0}
 --- !u!54 &1569498097444046159
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -170,6 +141,37 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &7546766059660279881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2709752866193246750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 821990e8d000b1b4eb99fb26d78bff44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  attackRange: 10
+  projectilePrefab: {fileID: 3799932398102311571, guid: 4e11af947a72a2f4e9cde74deb5611ba, type: 3}
+  projectileSpeed: 10
+  fireRate: 1
+  gunTransform: {fileID: 6942462688055051249}
+--- !u!114 &3427904120667588055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2709752866193246750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d4579cb39af5340a41423bd0476873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionEffect: {fileID: 7913430107105128428, guid: 6cb4877db2dec0445ae01380c2deebaf, type: 3}
 --- !u!1 &8525800247503671338
 GameObject:
   m_ObjectHideFlags: 0

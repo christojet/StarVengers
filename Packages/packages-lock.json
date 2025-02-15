@@ -7,7 +7,7 @@
       "dependencies": {}
     },
     "com.unity.adaptiveperformance": {
-      "version": "5.1.1",
+      "version": "5.1.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -34,7 +34,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
-      "version": "1.8.19",
+      "version": "1.8.18",
       "depth": 2,
       "source": "registry",
       "dependencies": {
@@ -75,7 +75,7 @@
       "source": "builtin",
       "dependencies": {
         "com.unity.mobile.android-logcat": "1.4.4",
-        "com.unity.adaptiveperformance": "5.1.1",
+        "com.unity.adaptiveperformance": "5.1.0",
         "com.unity.mobile.notifications": "2.4.0"
       }
     },
