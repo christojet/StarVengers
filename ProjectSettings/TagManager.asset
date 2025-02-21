@@ -8,6 +8,8 @@ TagManager:
   - Gun
   - AI
   - Balle
+  - B_attack
+  - mur
   layers:
   - Default
   - TransparentFX

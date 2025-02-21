@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 850591721631635815}
   - component: {fileID: 680620363542369908}
   - component: {fileID: 4015851992863452525}
-  - component: {fileID: 7581038103898758919}
+  - component: {fileID: 7940068903108257088}
+  - component: {fileID: 5767231765302621118}
+  - component: {fileID: 7603312619457441885}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Balle
@@ -137,7 +139,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7581038103898758919
+--- !u!114 &7940068903108257088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,7 +148,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 7158999430088855854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d9a3d14b847fa64b80c3d221acf2e68, type: 3}
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 3
+  SortKey: 252800382
+  ObjectInterest: 1
+  Flags: 786433
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 5767231765302621118}
+  - {fileID: 7603312619457441885}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &5767231765302621118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7158999430088855854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d763dc35da36a8e439d24f807048f8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 3
+--- !u!114 &7603312619457441885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7158999430088855854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0.15
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0

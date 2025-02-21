@@ -1,13 +1,17 @@
+using Fusion;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     public float moveSpeed = 10f;
-    public Joystick joystick; // Pour le contrôle mobile
+    private Joystick joystick;
+    private CharacterController controller;
 
-    void Update()
+    void Start()
     {
-        // Recherche de l'objet tagué "JoyStick" si le joystick n'est pas déjà assigné
+        controller = GetComponent<CharacterController>();
+
+        // Recherche du joystick si non assign�
         if (joystick == null)
         {
             GameObject joyObj = GameObject.FindGameObjectWithTag("JoyStick");
@@ -16,15 +20,19 @@ public class PlayerMovement : MonoBehaviour
                 joystick = joyObj.GetComponent<Joystick>();
             }
         }
+    }
 
-        // Si le joystick a été trouvé, on gère le déplacement du joueur
+    public override void FixedUpdateNetwork()
+    {
+        if (!HasInputAuthority) return; // V�rifie que c'est bien le joueur local
+
         if (joystick != null)
         {
             float moveX = joystick.Horizontal;
             float moveZ = joystick.Vertical;
 
-            Vector3 movement = new Vector3(moveX, 0f, moveZ) * moveSpeed * Time.deltaTime;
-            transform.Translate(movement, Space.World);
+            Vector3 movement = new Vector3(moveX, 0f, moveZ) * moveSpeed * Runner.DeltaTime;
+            controller.Move(movement);
 
             // Orientation du personnage dans la direction du mouvement
             if (movement != Vector3.zero)
@@ -34,3 +42,5 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 }
+
+

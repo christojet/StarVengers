@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectilef : MonoBehaviour
 {
     public float lifetime = 1f; // Durée avant destruction
 

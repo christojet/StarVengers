@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1569498097444046159}
   - component: {fileID: 7546766059660279881}
   - component: {fileID: 3427904120667588055}
+  - component: {fileID: 3029230882366502041}
   m_Layer: 0
   m_Name: Starvenger_Rouge
   m_TagString: AI
@@ -172,6 +173,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionEffect: {fileID: 7913430107105128428, guid: 6cb4877db2dec0445ae01380c2deebaf, type: 3}
+--- !u!114 &3029230882366502041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2709752866193246750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1840779175
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours: []
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &8525800247503671338
 GameObject:
   m_ObjectHideFlags: 0
