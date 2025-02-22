@@ -223,6 +223,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefab:
     RawGuidValue: 20c324974e4435e429e3c317a1e150b6
+  numberInputField: {fileID: 526531133}
+  hostButton: {fileID: 1114689824}
+  clientButton: {fileID: 1854388215}
 --- !u!1 &102311622
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,7 +776,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &526531130
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1242,8 +1245,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 300, y: -150}
-  m_SizeDelta: {x: 80, y: 80}
+  m_AnchoredPosition: {x: 564.15, y: -327}
+  m_SizeDelta: {x: 131.71, y: 131.71}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &719955702
 MonoBehaviour:
@@ -1546,7 +1549,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 727935261398415110, guid: b7913c8b7a267f748b5216bf0b55aa63, type: 3}
       propertyPath: Flags
-      value: 262145
+      value: 786433
       objectReference: {fileID: 0}
     - target: {fileID: 727935261398415110, guid: b7913c8b7a267f748b5216bf0b55aa63, type: 3}
       propertyPath: SortKey
@@ -1612,6 +1615,14 @@ PrefabInstance:
       propertyPath: mapGenerator
       value: 
       objectReference: {fileID: 1086903356}
+    - target: {fileID: 9073270477305668292, guid: b7913c8b7a267f748b5216bf0b55aa63, type: 3}
+      propertyPath: centerRegionMargin
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9073270477305668292, guid: b7913c8b7a267f748b5216bf0b55aa63, type: 3}
+      propertyPath: enableCenterObstacles
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1646,7 +1657,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1114689821
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2230,8 +2241,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 383, y: -70}
-  m_SizeDelta: {x: 80, y: 80}
+  m_AnchoredPosition: {x: 695.8584, y: -182.14163}
+  m_SizeDelta: {x: 131.7167, y: 131.7167}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1678686874
 MonoBehaviour:
@@ -2683,11 +2694,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 960
+      value: 1601.0723
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 645
+      value: 1156.7803
       objectReference: {fileID: 0}
     - target: {fileID: 8170153791668043268, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
       propertyPath: m_LocalScale.x
@@ -2769,6 +2780,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 5b56d9fa0e8bd6e409ed188db38a692c, type: 3}
+    - target: {fileID: 8170153792821263258, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 347.582
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170153792821263258, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 352.969
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170153792821263258, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 301.791
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170153792821263258, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 304.484
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -2795,7 +2822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1854388215
 MonoBehaviour:
   m_ObjectHideFlags: 0
